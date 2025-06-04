@@ -1,0 +1,84 @@
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+
+const Header = ({ minesLeft, time, onResetPress, gameStatus }) => {
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const secs = (seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+  };
+
+  let statusEmoji = '🤔'; // Pensando
+  if (gameStatus === 'won') {
+    statusEmoji = '😎'; // Ganhou
+  } else if (gameStatus === 'lost') {
+    statusEmoji = '😵'; // Perdeu
+  }
+
+
+  return (
+    <View style={styles.headerContainer}>
+      <View style={styles.infoBox}>
+        <Text style={styles.infoText}>🚩</Text>
+        <Text style={styles.infoText}>{minesLeft.toString().padStart(3, '0')}</Text>
+      </View>
+      <TouchableOpacity onPress={onResetPress} style={styles.resetButton}>
+        <Text style={styles.resetText}>{statusEmoji}</Text>
+      </TouchableOpacity>
+      <View style={styles.infoBox}>
+        <Text style={styles.infoText}>⏱️</Text>
+        <Text style={styles.infoText}>{formatTime(time)}</Text>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#c0c0c0', // Cor clássica de fundo
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: '#7b7b7b',
+    borderTopWidth: 2,
+    borderTopColor: '#fff',
+    width: '100%', // Ocupar a largura
+    marginBottom: 20,
+  },
+  infoBox: {
+    backgroundColor: '#000',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: '#7b7b7b',
+    minWidth: 70, // Largura mínima para os contadores
+    alignItems: 'center',
+    flexDirection: 'row', // Para alinhar emoji e texto
+    justifyContent: 'center',
+  },
+  infoText: {
+    color: '#ff0000', // Cor clássica de display digital
+    fontSize: 22,
+    fontWeight: 'bold',
+    fontFamily: 'monospace', // Para um look mais "digital"
+    marginLeft: 5,
+  },
+  resetButton: {
+    padding: 10,
+    backgroundColor: '#d3d3d3',
+    borderWidth: 2,
+    borderColor: '#7b7b7b', // Sombra
+    borderTopColor: '#fff', // Luz
+    borderLeftColor: '#fff', // Luz
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  resetText: {
+    fontSize: 24,
+  },
+});
+
+export default Header;
